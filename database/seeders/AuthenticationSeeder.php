@@ -36,10 +36,5 @@ class AuthenticationSeeder extends Seeder
             "description" => 'Lorem ipsum Dollar',
             "added_from" => $user->id,
         ]);
-        Category::create([
-            "name" => 'Gold',
-            "description" => 'Lorem ipsum Dollar',
-            "added_from" => $user->id,
-        ]);
     }
 }

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email_verified_at',
         'is_email_verified',
         "role",
+        "labour_cost",
     ];
 
     /**

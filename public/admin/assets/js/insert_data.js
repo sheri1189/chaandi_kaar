@@ -270,6 +270,20 @@
                                 //         );
                                 //     }
                                 // });
+                            } else if (response.message == "labout_cost") {
+                                button.removeAttribute("disabled");
+                                button.innerHTML = "Add " + module_name + " >";
+                                Swal.fire({
+                                    toast: true,
+                                    icon: "error",
+                                    title:
+                                        "Please Enter the Labour Cost First onto the Profile Section",
+                                    animation: false,
+                                    position: "top-right",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
                             } else if (response.error == "already exists") {
                                 button.removeAttribute("disabled");
                                 button.innerHTML = "Add " + module_name + " >";

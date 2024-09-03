@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\QuantityUnit;
 use App\Models\Stock;
+use App\Models\User;
 use Illuminate\Support\Facades\Request;
 
 class ProductController extends Controller
@@ -44,7 +45,28 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        $user = User::where('id', session()->get('user_added'))->first();
+        if ($user->labour_cost == "") {
+            return response()->json([
+                "message" => "labout_cost",
+            ]);
+        }
+        if ($user->labour_cost == "") {
+            $labour_cost = 0;
+        } else {
+            $labour_cost = $user->labour_cost;
+        }
         $input = $request->all();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.alphavantage.co/query?function=SILVER&interval=monthly&apikey=5JRZYOZ6O59WZTQ0");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'cURL error: ' . curl_error($ch);
+            exit;
+        }
+        curl_close($ch);
+        $data = json_decode($response, true);
         $imagePaths = [];
         if ($request->hasFile('product_image')) {
             foreach ($request->file('product_image') as $file) {
@@ -56,6 +78,8 @@ class ProductController extends Controller
         }
         $input['added_from'] = session()->get('user_added');
         $input['product_name'] = strtolower($request->product_name);
+        $productPrice = rand(3010, 3030) * $request->product_weight + $labour_cost;
+        $input['product_price'] = $productPrice;
         $product = Product::create($input);
         if ($product) {
             Stock::updateOrCreate(
@@ -107,7 +131,28 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        $user = User::where('id', session()->get('user_added'))->first();
+        if ($user->labour_cost == "") {
+            return response()->json([
+                "message" => "labout_cost",
+            ]);
+        }
+        if ($user->labour_cost == "") {
+            $labour_cost = 0;
+        } else {
+            $labour_cost = $user->labour_cost;
+        }
         $input = $request->all();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.alphavantage.co/query?function=SILVER&interval=monthly&apikey=5JRZYOZ6O59WZTQ0");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'cURL error: ' . curl_error($ch);
+            exit;
+        }
+        curl_close($ch);
+        $data = json_decode($response, true);
         $imagePaths = [];
         if ($request->hasFile('product_image')) {
             foreach ($request->file('product_image') as $file) {
@@ -120,6 +165,8 @@ class ProductController extends Controller
         $category = Category::where('id', $request->category)->first();
         $input['added_from'] = session()->get('user_added');
         $input['product_name'] = strtolower($request->product_name);
+        $productPrice = rand(3010, 3030) * $request->product_weight + $labour_cost;
+        $input['product_price'] = $productPrice;
         if ($product->update($input)) {
             Stock::updateOrCreate(
                 ['product_id' => $product->id],
@@ -216,7 +263,7 @@ class ProductController extends Controller
                         [
                             'category' => $productType === "Silver" ? 1 : 2,
                             'product_name' => $productTitle,
-                            'product_min_limit' => rand(1,100),
+                            'product_min_limit' => rand(1, 100),
                             'product_unit' => 'Kg',
                             'product_price' => str_replace("£", '', $productPrice),
                             'product_image' => json_encode($productPhotos, JSON_UNESCAPED_SLASHES),
@@ -228,7 +275,7 @@ class ProductController extends Controller
                         'product_id' => $insert_product->id,
                     ], [
                         'product_id' => $insert_product->id,
-                        'product_stock' => rand(1,100),
+                        'product_stock' => rand(1, 100),
                         'added_from' => session()->get('user_added'),
                     ]);
                     $count++;

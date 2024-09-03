@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('email_verified_at')->nullable();
             $table->string('is_email_verified')->comment('0= Unverified, 1= Verified')->nullable();
             $table->string("role")->nullable();
+            $table->string("labour_cost")->nullable();
             $table->timestamps();
         });
     }

@@ -134,6 +134,20 @@
                                 // $("#product_price_" + response.module_data.id).append("Rs."+response.product_price);
                                 // $("#product_description_" + response.module_data.id).append(response.product_description);
                                 // $("#product_image_" + response.module_data.id).find('.avatar-md').attr('src',response.module_data.product_image);
+                            }else if (response.message == "labout_cost") {
+                                button.removeAttribute("disabled");
+                                button.innerHTML = "Add " + module_name + " >";
+                                Swal.fire({
+                                    toast: true,
+                                    icon: "error",
+                                    title:
+                                        "Please Enter the Labour Cost First onto the Profile Section",
+                                    animation: false,
+                                    position: "top-right",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
                             } else if (response.message == "update_min_stock") {
                                 Swal.fire({
                                     toast: true,

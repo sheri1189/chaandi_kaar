@@ -43,6 +43,13 @@
                                 <strong class="text-danger" id="product_unit"></strong>
                             </div>
                             <div class="col-md-12">
+                                <label class="form-label">Product Weight(In Tola) *</label>
+                                <input type="text" class="form-control" name="product_weight"
+                                    value="{{ old('product_weight') }}"
+                                    placeholder="Enter Product Weight(In Tola)" autocomplete="off" required>
+                                <strong class="text-danger" id="product_weight"></strong>
+                            </div>
+                            <div class="col-md-12">
                                 <label class="form-label">Product Stock Limit *</label>
                                 <input type="number" min="1" class="form-control" name="product_min_limit"
                                     value="{{ old('product_min_limit') }}" placeholder="Enter Product Stock Limit"
@@ -56,13 +63,13 @@
                                     required>
                                 <strong class="text-danger" id="product_stock"></strong>
                             </div>
-                            <div class="col-md-12">
+                            {{-- <div class="col-md-12">
                                 <label class="form-label">Product Price *</label>
                                 <input type="number" min="1" class="form-control" name="product_price"
                                     value="{{ old('product_price') }}" placeholder="Enter Product Price" autocomplete="off"
                                     required>
                                 <strong class="text-danger" id="product_price"></strong>
-                            </div>
+                            </div> --}}
                             <div class="col-md-12">
                                 <label class="form-label">Image *</label>
                                 <input type="file" class="form-control" id="previewImage" name="product_image[]" multiple
@@ -74,7 +81,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Product Description *</label>
-                                <textarea name="product_description" class="form-control" rows="3" placeholder="Enter Product Description"></textarea>
+                                <textarea name="product_description" class="form-control" required rows="3" placeholder="Enter Product Description"></textarea>
                                 <strong class="text-danger" id="product_price"></strong>
                             </div>
                             <div class="col-12 text-end">
@@ -131,19 +138,26 @@
                                 <strong class="text-danger" id="product_unit"></strong>
                             </div>
                             <div class="col-md-12">
+                                <label class="form-label">Product Weight(In Tola) *</label>
+                                <input type="number" min="1" class="form-control" name="product_weight"
+                                    id="get_product_weight" value="{{ old('product_weight') }}"
+                                    placeholder="Enter Product Weight(In Tola)" autocomplete="off" required>
+                                <strong class="text-danger" id="product_weight"></strong>
+                            </div>
+                            <div class="col-md-12">
                                 <label class="form-label">Avalible Stock *</label>
                                 <input type="number" min="1" class="form-control" name="product_stock"
                                     id="get_product_stock" value="{{ old('product_stock') }}"
                                     placeholder="Enter Avalible Stock" autocomplete="off" required>
                                 <strong class="text-danger" id="product_stock"></strong>
                             </div>
-                            <div class="col-md-12">
+                            {{-- <div class="col-md-12">
                                 <label class="form-label">Product Price *</label>
                                 <input type="number" min="1" class="form-control" name="product_price"
                                     id="get_product_price" value="{{ old('product_price') }}"
                                     placeholder="Enter Product Price" autocomplete="off" required>
                                 <strong class="text-danger" id="product_price"></strong>
-                            </div>
+                            </div> --}}
                             <div class="col-md-12">
                                 <label class="form-label">Image *</label>
                                 <input type="file" class="form-control" id="updatepreviewImage"
@@ -155,7 +169,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Product Description *</label>
-                                <textarea name="product_description" class="form-control" rows="3" id="get_product_description"
+                                <textarea name="product_description" class="form-control" required rows="3" id="get_product_description"
                                     placeholder="Enter Product Description"></textarea>
                                 <strong class="text-danger" id="product_price"></strong>
                             </div>
@@ -206,7 +220,7 @@
                                 <h5 class="card-title mb-0">Manage Products</h5>
                             </div>
                             <div class="col-6 text-end">
-                                <a href="{{ url('/sync_products') }}" class="btn btn-success"><i class="fas fa-sync"></i> Sync Products</a>
+                                {{-- <a href="{{ url('/sync_products') }}" class="btn btn-success"><i class="fas fa-sync"></i> Sync Products</a> --}}
                                 <button class="btn btn-primary" id="addproduct">+ Add Product</button>
                             </div>
                         </div>
@@ -219,6 +233,7 @@
                                     <th>Product Name</th>
                                     <th>Company</th>
                                     <th>Product Unit</th>
+                                    <th>Product Weight(In Tola)</th>
                                     <th>Product Price</th>
                                     <th>Product Image</th>
                                     <th>Product Description</th>
@@ -239,6 +254,8 @@
                                                 {{ Str::ucfirst($array_data[$product->id]) }}</td>
                                             <td id="product_unit_{{ $product->id }}">
                                                 {{ Str::ucfirst($product->product_unit) }}</td>
+                                                <td id="product_weight_{{ $product->id }}">
+                                                    {{ Str::ucfirst($product->product_weight) }}</td>
                                             <td id="product_price_{{ $product->id }}">
                                                 {{ 'Rs.' . Str::ucfirst($product->product_price) }}</td>
                                             <td id="product_image_{{ $product->id }}">
@@ -388,12 +405,11 @@
                         $("#get_product_name").val(response.message.product_name);
                         $("#get_product_min_limit").val(response.message.product_min_limit);
                         $("#get_product_unit").val(response.message.product_unit);
+                        $("#get_product_weight").val(response.message.product_weight);
                         $("#get_product_price").val(response.message.product_price);
                         $("#get_product_stock").val(response.product_stock);
                         $("#get_product_description").val(response.message.product_description);
-
                         imageContainer.empty();
-
                         $.each(response.product_image, function(key, value) {
                             var img = $('<img>', {
                                 src: value,

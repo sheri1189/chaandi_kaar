@@ -243,6 +243,7 @@ class PagesController extends Controller
             "password" => Hash::make($request->password),
             "temp_password" => $request->password,
             "address" => $request->address,
+            "labour_cost" => $request->labour_cost,
         ]);
         return response()->json([
             "message" => 200,

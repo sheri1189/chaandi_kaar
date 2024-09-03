@@ -14,6 +14,7 @@ class Product extends Model
         "product_min_limit",
         "product_unit",
         "product_price",
+        "product_weight",
         'product_image',
         'product_description',
         "added_from",

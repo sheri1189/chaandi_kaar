@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("product_min_limit");
             $table->string("product_unit");
             $table->string("product_price");
+            $table->string("product_weight");
             $table->longText("product_image");
             $table->longText("product_description");
             $table->string("added_from");

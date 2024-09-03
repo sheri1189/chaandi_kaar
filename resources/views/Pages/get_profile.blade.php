@@ -107,6 +107,13 @@
                                                 <textarea name="address" class="form-control" row="4">{{ $user->address }}</textarea>
                                                 <strong class="text-danger" id="address"></strong>
                                             </div>
+                                            @if ($user->role=="Admin")
+                                            <div class="col-12">
+                                                <label class="form-label">Labour Cost *</label>
+                                                <input name="labour_cost" type="number" placeholder="Enter Labour Cost" class="form-control" value="{{ $user->labour_cost }}">
+                                                <strong class="text-danger" id="labour_cost"></strong>
+                                            </div>
+                                            @endif
                                             <div class="col-6">
                                                 <button class="btn btn-primary m-1 rounded-pill" type="submit"
                                                     id="update">Update Profile > </button>
